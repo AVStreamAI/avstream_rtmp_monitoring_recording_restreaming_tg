@@ -141,7 +141,6 @@ nms.on('donePublish', async (id, StreamPath, args) => {
     const streamKey = StreamPath.split('/')[2];
     const duration = (Date.now() - streamData.startTime) / 1000;
     
-    // Save metrics to file
     if (streamData.metricsLog && streamData.metricsLog.length > 0) {
       try {
         fs.writeFileSync(streamData.metricsFile, JSON.stringify(streamData.metricsLog, null, 2));
@@ -151,7 +150,6 @@ nms.on('donePublish', async (id, StreamPath, args) => {
       }
     }
     
-    // Stop all forwarding processes
     for (const [destinationId, process] of streamData.forwardProcesses.entries()) {
       process.kill();
       await telegramBot.forwardingEnded(destinationId, process.destinationUrl, process.destinationKey);
@@ -232,7 +230,8 @@ app.post('/api/forward', async (req, res) => {
     }
 
     try {
-      const process = ffmpeg()
+      const isRTMPS = destinationUrl.startsWith('rtmps://');
+      const ffmpegCommand = ffmpeg()
         .input(`rtmp://127.0.0.1:1935${streamPath}`)
         .inputOptions([
           '-re',
@@ -244,32 +243,41 @@ app.post('/api/forward', async (req, res) => {
           '-f flv',
           '-flvflags no_duration_filesize',
           '-threads', optimalThreads.toString()
-        ])
-        .output(`${destinationUrl}/${destinationKey}`);
+        ]);
+
+      // Add RTMPS-specific options if needed
+      if (isRTMPS) {
+        ffmpegCommand.outputOptions([
+          '-tls_verify 0',  // Skip SSL verification (use 1 for production)
+          '-f flv'
+        ]);
+      }
+
+      ffmpegCommand.output(`${destinationUrl}/${destinationKey}`);
 
       // Store destination info for telegram notifications
-      process.destinationUrl = destinationUrl;
-      process.destinationKey = destinationKey;
+      ffmpegCommand.destinationUrl = destinationUrl;
+      ffmpegCommand.destinationKey = destinationKey;
 
-      process.on('start', async () => {
-        console.log(`Started forwarding to destination ${destinationId}`);
+      ffmpegCommand.on('start', async () => {
+        console.log(`Started forwarding to destination ${destinationId} (${isRTMPS ? 'RTMPS' : 'RTMP'})`);
         await telegramBot.forwardingStarted(destinationId, destinationUrl, destinationKey);
       });
 
-      process.on('end', async () => {
+      ffmpegCommand.on('end', async () => {
         console.log(`Forwarding ended for destination ${destinationId}`);
         streamData.forwardProcesses.delete(destinationId);
         await telegramBot.forwardingEnded(destinationId, destinationUrl, destinationKey);
       });
 
-      process.on('error', async (err) => {
+      ffmpegCommand.on('error', async (err) => {
         console.error(`Forwarding error for destination ${destinationId}:`, err);
         streamData.forwardProcesses.delete(destinationId);
         await telegramBot.forwardingError(destinationId, destinationUrl, destinationKey, err.message);
       });
 
-      process.run();
-      streamData.forwardProcesses.set(destinationId, process);
+      ffmpegCommand.run();
+      streamData.forwardProcesses.set(destinationId, ffmpegCommand);
       res.json({ success: true });
     } catch (error) {
       console.error('Failed to start forwarding:', error);
