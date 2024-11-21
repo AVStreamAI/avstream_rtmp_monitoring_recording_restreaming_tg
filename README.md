@@ -1,5 +1,8 @@
 # RTMP Monitoring & Recording & Restreaming & Telegram Notification
 
+### Updates
+21.11.2024 - RTMPS support has been added for forwarding RTMP streams.
+
 ## Description
 
 This project operates on localhost and accepts incoming RTMP feeds. It offers the following features:  
