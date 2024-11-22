@@ -21,7 +21,8 @@ export const config = {
   http: {
     port: 8000,
     mediaroot: mediaRoot,
-    allow_origin: '*'
+    allow_origin: '*',
+    host: '0.0.0.0'  // Listen on all network interfaces
   },
   auth: {
     play: false,
