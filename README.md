@@ -26,10 +26,10 @@ Windows:
 - Open the Start Menu, search for "Environment Variables," and select "Edit the system environment variables."
 - In the System Properties window, click on "Environment Variables."
 - Under "System variables," find and select the "Path" variable, then click "Edit."
-- Click "New" and add the path to the FFmpeg 'bin' directory (e.g., C:\ffmpeg\bin).
+- Click "New" and add the path to the FFmpeg 'bin' directory (e.g., `C:/ffmpeg/bin`).
 - Click "OK" to close all windows.
 
-Small amount of users need to download https://www.npmjs.com/package/bluebird and place it into \node_modules\bluebird\
+Small amount of users need to download https://www.npmjs.com/package/bluebird and place it into `/node_modules/bluebird/`
 
 ### How to Run  
 1. Run the `start-rtmp-monitor.bat` file.  
