@@ -2,6 +2,7 @@
 
 ### Updates
 21.11.2024 - RTMPS support has been added for forwarding RTMP streams.
+22.11.2024 - Access the service from any device on your local network.
 
 ## Description
 
