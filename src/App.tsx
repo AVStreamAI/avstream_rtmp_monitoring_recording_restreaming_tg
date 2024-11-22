@@ -3,6 +3,12 @@ import { Download, Plus, Minus, Play, Pause } from 'lucide-react';
 import { VideoPlayer } from './components/VideoPlayer';
 import { MetricsPanel } from './components/MetricsPanel';
 
+// Get the local IP from window.location when running in browser
+const LOCAL_IP = window.location.hostname;
+const WS_URL = `ws://${LOCAL_IP}:8080`;
+const API_URL = `http://${LOCAL_IP}:3000`;
+const FLV_URL = `http://${LOCAL_IP}:8000`;
+
 interface Destination {
   url: string;
   key: string;
@@ -45,7 +51,7 @@ function App() {
   const connectWebSocket = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
     
     ws.onopen = () => {
@@ -124,12 +130,11 @@ function App() {
       const destination = destinations[index];
       const action = destination.isForwarding ? 'stop' : 'start';
   
-      // Optimistically update UI state
       setDestinations(prev => prev.map((dest, i) => 
         i === index ? { ...dest, isForwarding: !dest.isForwarding } : dest
       ));
   
-      const response = await fetch(`http://localhost:3000/api/forward`, {
+      const response = await fetch(`${API_URL}/api/forward`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +149,6 @@ function App() {
       });
   
       if (!response.ok) {
-        // Revert UI state if request failed
         setDestinations(prev => prev.map((dest, i) => 
           i === index ? { ...dest, isForwarding: !dest.isForwarding } : dest
         ));
@@ -152,7 +156,6 @@ function App() {
         console.error('Failed to toggle forwarding:', error);
       }
     } catch (error) {
-      // Revert UI state on error
       setDestinations(prev => prev.map((dest, i) => 
         i === index ? { ...dest, isForwarding: !dest.isForwarding } : dest
       ));
@@ -181,7 +184,7 @@ function App() {
 
   const downloadLogs = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/metrics');
+      const response = await fetch(`${API_URL}/api/metrics`);
       const data = await response.json();
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = window.URL.createObjectURL(blob);
@@ -203,9 +206,9 @@ function App() {
         {/* Video Player Section */}
         <div className="bg-gray-800 rounded-lg p-4">
           <h2 className="text-xl font-bold mb-4">AVStream RTMP Monitoring & Record Dashboard</h2>
-          <VideoPlayer streamKey={activeStreamKey || ''} />
+          <VideoPlayer streamKey={activeStreamKey || ''} flvUrl={FLV_URL} />
           <div className="mt-2 text-sm text-gray-400">
-            Incoming RTMP: rtmp://127.0.0.1:1935/live/{activeStreamKey || '[waiting for stream]'}
+            Incoming RTMP: rtmp://{LOCAL_IP}:1935/live/{activeStreamKey || '[waiting for stream]'}
           </div>
         </div>
 
