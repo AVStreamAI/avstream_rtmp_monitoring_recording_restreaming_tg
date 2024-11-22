@@ -2,18 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface VideoPlayerProps {
   streamKey: string;
+  flvUrl: string;
 }
 
-export function VideoPlayer({ streamKey }: VideoPlayerProps) {
+export function VideoPlayer({ streamKey, flvUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<any>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Clear previous error
     setError(null);
 
-    // Cleanup previous player
     if (playerRef.current) {
       playerRef.current.destroy();
       playerRef.current = null;
@@ -23,7 +22,6 @@ export function VideoPlayer({ streamKey }: VideoPlayerProps) {
       return;
     }
 
-    // Wait for flv.js to be loaded
     const initPlayer = () => {
       if (!window.flvjs) {
         setTimeout(initPlayer, 100);
@@ -41,7 +39,7 @@ export function VideoPlayer({ streamKey }: VideoPlayerProps) {
 
         playerRef.current = window.flvjs.createPlayer({
           type: 'flv',
-          url: `http://localhost:8000/live/${streamKey}.flv`,
+          url: `${flvUrl}/live/${streamKey}.flv`,
           isLive: true,
           hasAudio: true,
           hasVideo: true,
@@ -75,7 +73,7 @@ export function VideoPlayer({ streamKey }: VideoPlayerProps) {
         playerRef.current = null;
       }
     };
-  }, [streamKey]);
+  }, [streamKey, flvUrl]);
 
   const handleVideoClick = () => {
     if (videoRef.current) {
