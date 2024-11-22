@@ -14,7 +14,20 @@ This project operates on localhost and accepts incoming RTMP feeds. It offers th
 - Sends Telegram notifications for events like stream start, stop, or errors.  
 
 ### Setup  
-- Insert your Telegram Bot token into the `.env` file.  
+- Insert your Telegram Bot token into the `.env` file.
+- Some users first need to install Node.js and ffmpeg on their system. Don't forget to add ffmpeg to the PATH.
+- Node.js: [https://nodejs.org/]
+- FFmpeg for windows: [https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z]
+
+Adding FFmpeg to the System PATH:
+
+Windows:
+
+- Open the Start Menu, search for "Environment Variables," and select "Edit the system environment variables."
+- In the System Properties window, click on "Environment Variables."
+- Under "System variables," find and select the "Path" variable, then click "Edit."
+- Click "New" and add the path to the FFmpeg 'bin' directory (e.g., C:\ffmpeg\bin).
+- Click "OK" to close all windows.
 
 ### How to Run  
 1. Run the `start-rtmp-monitor.bat` file.  
