@@ -16,8 +16,8 @@ This project operates on localhost and accepts incoming RTMP feeds. It offers th
 ### Setup  
 - Insert your Telegram Bot token into the `.env` file.
 - Some users first need to install Node.js and ffmpeg on their system. Don't forget to add ffmpeg to the PATH.
-- Node.js: [https://nodejs.org/]
-- FFmpeg for windows: [https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z]
+- Node.js: https://nodejs.org/
+- FFmpeg for windows: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z
 
 Adding FFmpeg to the System PATH:
 
