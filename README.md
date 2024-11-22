@@ -29,6 +29,8 @@ Windows:
 - Click "New" and add the path to the FFmpeg 'bin' directory (e.g., C:\ffmpeg\bin).
 - Click "OK" to close all windows.
 
+Small amount of users need to download https://www.npmjs.com/package/bluebird and place it into \node_modules\bluebird\
+
 ### How to Run  
 1. Run the `start-rtmp-monitor.bat` file.  
 2. It will automatically install all dependencies and start the service at [http://localhost:5173](http://localhost:5173).  
