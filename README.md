@@ -1,7 +1,7 @@
 # RTMP Monitoring & Recording & Restreaming & Telegram Notification
 
 ### Updates
-04.12.2024 - Release 0.5.2 - Fallback Image stream and SRT/RTMP input - [Download] (https://github.com/AVStreamAI/avstream_rtmp_monitoring_recording_restreaming_tg/releases/tag/release-0.5.2)
+04.12.2024 - Release 0.5.2 - Fallback Image stream and SRT/RTMP input - [Download](https://github.com/AVStreamAI/avstream_rtmp_monitoring_recording_restreaming_tg/releases/tag/release-0.5.2)
 
 26.11.2024 - Release v.0.4 - System Mertics and Video Bitrate history - [Download](https://github.com/AVStreamAI/avstream_rtmp_monitoring_recording_restreaming_tg/releases/tag/release-0.4)
 
