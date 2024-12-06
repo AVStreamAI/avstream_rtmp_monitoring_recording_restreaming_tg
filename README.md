@@ -1,4 +1,4 @@
-# RTMP Monitoring & Recording & Restreaming & Telegram Notification
+# RTMP Monitoring & Recording & Restreaming & Fallcak Image & Telegram Notification
 
 ### Updates
 04.12.2024 - Release 0.5.2 - Fallback Image stream and SRT/RTMP input - [Download](https://github.com/AVStreamAI/avstream_rtmp_monitoring_recording_restreaming_tg/releases/tag/release-0.5.2)
