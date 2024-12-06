@@ -13,10 +13,11 @@
 
 ## Description
 
-This project operates on localhost and accepts incoming RTMP feeds. It offers the following features:  
+This project operates on localhost and accepts incoming RTMP/SRT feeds. It offers the following features:  
 - Automatically records incoming streams in the `/server/record/` folder.  
 - Logs all events with timestamps in the same folder as the recordings.  
-- Restreams the feed to up to four destinations without converting the incoming video.  
+- Restreams the feed to up to four destinations without converting the incoming video.
+- Fallback image streaming in case of interrupting incoming RTMP/SRT feed.  
 - Sends Telegram notifications for events like stream start, stop, or errors.  
 
 ### Setup  
